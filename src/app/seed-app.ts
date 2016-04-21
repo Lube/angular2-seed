@@ -4,12 +4,18 @@ import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Home} from './components/home/home';
 import {About} from './components/about/about';
 import {RepoBrowser} from './components/repo-browser/repo-browser';
+import {Devtools, devtoolsConfig} from '@ngrx/devtools';
 
 @Component({
   selector: 'seed-app',
-  providers: [],
+  providers: [
+        devtoolsConfig({
+            position: 'right',
+            visible: true,
+            size: 0.3
+        })],
   pipes: [],
-  directives: [ROUTER_DIRECTIVES],
+  directives: [Devtools, ROUTER_DIRECTIVES],
   templateUrl: 'app/seed-app.html',
 })
 @RouteConfig([
