@@ -1,7 +1,14 @@
 import {Component} from 'angular2/core';
 import {RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Http} from 'angular2/http';
-import {Github} from '../../services/github';
+import {DETAIL} from '../../reducers/repos';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs/Observable';
+
+interface AppState {
+  org: string,
+  repos: Array<string>
+}
 
 @Component({
   selector: 'repo-detail',
@@ -12,15 +19,10 @@ import {Github} from '../../services/github';
   pipes: []
 })
 export class RepoDetail {
-  repoDetails = {};
-  constructor(public routeParams:RouteParams, public github: Github) {}
-
-  ngOnInit() {
-    this.github.getRepoForOrg(this.routeParams.get('org'), this.routeParams.get('name'))
-      .subscribe(repoDetails => {
-        this.repoDetails = repoDetails;
-      });
-
+  repo: Observable<any>
+  constructor(public params: RouteParams, public store: Store<AppState>)
+  {
+    this.repo = store.select('repo_selected');
+    this.store.dispatch({type: DETAIL, payload: {org: this.params.get('org'), repo: this.params.get('name')}})
   }
-
 }

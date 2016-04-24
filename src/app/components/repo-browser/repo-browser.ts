@@ -3,13 +3,11 @@ import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {RepoList} from '../repo-list/repo-list';
 import {RepoDetail} from '../repo-detail/repo-detail';
-import {Github} from '../../services/github';
 
 @Component({
   selector: 'repo-browser',
   templateUrl: 'app/components/repo-browser/repo-browser.html',
   styleUrls: ['app/components/repo-browser/repo-browser.css'],
-  providers: [ Github ],
   directives: [ ROUTER_DIRECTIVES ],
   pipes: []
 })
@@ -19,14 +17,11 @@ import {Github} from '../../services/github';
 ])
 export class RepoBrowser {
 
-  constructor(private router:Router, private github: Github) {}
+  constructor(private router:Router) {}
 
-  searchForOrg(orgName: string){
-    this.github.getOrg(orgName)
-      .subscribe(({name}) => {
-        console.log(name);
-        this.router.navigate(['RepoList', {org: orgName}])
-      })
+  searchForOrg(orgName: string)
+  {
+    this.router.navigate(['RepoList', {org: orgName}])
   }
 
 }

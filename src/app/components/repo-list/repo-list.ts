@@ -1,13 +1,13 @@
 import {Component} from 'angular2/core';
-import {Github} from '../../services/github';
 import {Observable} from 'rxjs/Observable';
 import {RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {Store} from '@ngrx/store';
-import {INCREMENT, DECREMENT, RESET} from '../../reducers/counter';
+import {FETCH} from '../../reducers/repos';
 
 interface AppState {
-  counter: number;
+  org: string,
+  repos: Array<string>
 }
 
 @Component({
@@ -20,29 +20,10 @@ interface AppState {
 })
 export class RepoList {
   repos: Observable<any>
-  counter: Observable<number>;
-  constructor(public github: Github, public params: RouteParams, public store: Store<AppState>) 
+  constructor(public params: RouteParams, public store: Store<AppState>)
   {
-    this.counter = store.select('counter');
-  }
-  
-  public increment()
-  {
-      this.store.dispatch({ type: INCREMENT });
-  }
-
-  public decrement()
-  {
-      this.store.dispatch({ type: DECREMENT });
-  }
-
-  public reset()
-  {
-      this.store.dispatch({ type: RESET });
-  }
-
-  ngOnInit() {
-    this.repos = this.github.getReposForOrg(this.params.get('org'));
+    this.repos = store.select('repos');
+    this.store.dispatch({type: FETCH, payload: this.params.get('org') })
   }
 }
 
