@@ -19,10 +19,8 @@ interface AppState {
   pipes: []
 })
 export class RepoDetail {
-  repo: Observable<any>
   constructor(public params: RouteParams, public store: Store<AppState>)
   {
-    this.repo = store.select('repo_selected');
     this.store.dispatch({type: DETAIL, payload: {org: this.params.get('org'), repo: this.params.get('name')}})
   }
 }

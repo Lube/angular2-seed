@@ -1,7 +1,7 @@
 
 <h3>Repo list</h3>
 <ul>
-	<li *ngFor="#repo of repos | async">
+	<li *ngFor="#repo of store.select('repos') | async">
     <a [routerLink]=" ['RepoDetail', {org: repo.owner.login, name: repo.name}] ">
       {{ repo.name }}
     </a>
